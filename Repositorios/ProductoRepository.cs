@@ -8,14 +8,33 @@ public interface IProductoRepository {
 
 public class ProductoRepository : IProductoRepository
 {
+    private string CadenaDeConexion = "Data Source=db/Tienda.db;Cache=Shared";
+
     public void CrearNuevo(Productos producto)
     {
-        throw new NotImplementedException();
+        using (SqlConnection connection = new SqlConnection(CadenaDeConexion)) 
+        {
+            connection.Open();
+
+            // haces la consulta
+            string queryString= "INSERT INTO Productos(Descripcion,Precio) VALUES ($descripcion, $precio)";
+            var command= new SqlCommand(queryString, connection);
+            command.Parameters.AddWithValue("$descripcion", producto.Descripcion);
+            command.Parameters.AddWithValue("$precio",producto.Precio);
+            command.ExecuteNonQuery();
+            connection.Close();
+        }
     }
 
     public void EliminarProducto(int id)
     {
-        throw new NotImplementedException();
+                using (SqlConnection connection = new SqlConnection(CadenaDeConexion)) 
+        {
+            connection.Open();
+            string queryString= ""
+            connection.Close();
+        }
+        
     }
 
     public List<Productos> ListarProductos()
